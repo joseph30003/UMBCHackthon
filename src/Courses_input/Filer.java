@@ -63,7 +63,7 @@ public class Filer {
 		public static void main(String[] args){
 			
 			try{
-				File file = new File("/Users/joseph/Desktop/tt.txt");
+				File file = new File("/Users/joseph/Desktop/grad_is.txt");
 			
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			
@@ -72,21 +72,25 @@ public class Filer {
 		    Connection conn = DriverManager.getConnection(myUrl, "joseph", "joseph");
 			String line=null;
 			int lineN=0;
-			String CourseID=null,CourseName = null,RequireID=null,CourseContent;
+			String CourseID=null,CourseName = null,RequireID=null,CourseContent=null;
 			
 			
 			while ((line = br.readLine()) != null) {
 			if(line.startsWith("MATH ")) {
 				lineN=0;
-				CourseID=line.split(" - ")[0].replace(" ", "");
-				CourseName=line.split(" - ")[1];
+				String[] lines=line.split(" - ");
+				CourseID=lines[0].replace(" ", "");
+				
+				CourseName=lines[1];
+				//System.out.println(lines.length);
 				}
 			else lineN++;
 		    if(lineN==3) {
 		    	CourseContent=line;
-		    	Course_update(CourseID,3,1,2,CourseName,CourseContent,conn);
+		    	System.out.println(CourseID+CourseName+CourseContent);
+		    	Course_update(CourseID,3,2,1,CourseName,CourseContent,conn);
 		    }
-		    if(line.startsWith("Requirement Group")) {
+		    if(line.startsWith("Prerequisite")) {
 		    	Pattern patt = Pattern.compile("[A-Z]+ [0-9]+[A-Z]?");
 		    	Matcher m = patt.matcher(line);
 		    	 
